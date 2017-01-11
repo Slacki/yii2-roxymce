@@ -16,12 +16,28 @@ use navatech\roxymce\Module;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 
 /**
  * {@inheritDoc}
  */
 class DefaultController extends Controller {
 
+	public function behaviors()
+	{
+		return [
+		    'access' => [
+			'class' => AccessControl::className(),
+			'rules' => [
+			    [
+				'allow' => true,
+				'roles' => ['@'],
+			    ],
+			],
+		    ],
+		];
+	}
+	
 	/**
 	 * Render a view
 	 *
