@@ -63,7 +63,7 @@ class ManagementController extends Controller {
 				'roles' => ['@'],
 			    ],
 			],
-		    ],
+		    ];
 		return $behaviors;
 	}
 
