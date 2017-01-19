@@ -54,6 +54,15 @@ class ManagementController extends Controller {
 				],
 			],
 		];
+		$behaviors['access'] = [
+			'class' => AccessControl::className(),
+			'rules' => [
+			    [
+				'allow' => true,
+				'roles' => ['@'],
+			    ],
+			],
+		    ],
 		return $behaviors;
 	}
 
