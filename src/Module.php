@@ -57,6 +57,8 @@ class Module extends \navatech\base\Module {
 	 */
 	public $allowExtension = 'jpeg jpg png gif svg mov mp3 mp4 avi wmv flv mpeg webm ogg';
 
+	public $canPerformNeuralgicActions = true;
+
 	/**
 	 * Initializes the module.
 	 *
@@ -69,6 +71,7 @@ class Module extends \navatech\base\Module {
 	 */
 	public function init() {
 		parent::init();
+
 		if (!is_dir(Yii::getAlias($this->uploadFolder))) {
 			mkdir(Yii::getAlias($this->uploadFolder), 0777, true);
 		}
