@@ -18,6 +18,7 @@ use Yii;
 use yii\base\ErrorException;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
