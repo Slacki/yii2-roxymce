@@ -30,6 +30,15 @@ use yii\web\UploadedFile;
 class ManagementController extends Controller
 {
 
+    public function beforeAction($action)
+    {
+        if (Yii::$app->cache->exists('roxy_security')) {
+            $this->module->canPerformNeuralgicActions = false;
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public $enableCsrfValidation = false;
 
     /**
