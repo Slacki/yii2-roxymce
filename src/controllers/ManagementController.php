@@ -32,7 +32,7 @@ class ManagementController extends Controller
 
     public function beforeAction($action)
     {
-        if (Yii::$app->cache->exists('roxy_security')) {
+        if (Yii::$app->user->identity->level === 1) {
             $this->module->canPerformNeuralgicActions = false;
         }
 
