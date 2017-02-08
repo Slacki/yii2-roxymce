@@ -123,6 +123,8 @@ class ManagementController extends Controller
                 'message' => Yii::t('roxy', 'Invalid directory {0}', [$folder]),
             ];
         }
+
+        Yii::info('[roxymce] Folder created', 'userBehaviour');
         return $response;
     }
 
@@ -200,7 +202,11 @@ class ManagementController extends Controller
      */
     public function actionFolderRename($folder = '', $name)
     {
-        if (!$this->module->canPerformNeuralgicActions) return;
+        if (!$this->module->canPerformNeuralgicActions)
+        {
+            Yii::info('[roxymce] Access violation (soft): Folder rename', 'security');
+            return;
+        }
 
         if ($folder == '') {
             return [
@@ -211,6 +217,7 @@ class ManagementController extends Controller
         $folder = realpath($folder);
         $newFolder = dirname($folder) . DIRECTORY_SEPARATOR . $name;
         if (rename($folder, $newFolder)) {
+            Yii::info('[roxymce] Folder renamed', 'userBehaviour');
             return [
                 'error' => 0,
                 'data' => [
@@ -238,7 +245,10 @@ class ManagementController extends Controller
      */
     public function actionFolderRemove($folder, $parentFolder = '')
     {
-        if (!$this->module->canPerformNeuralgicActions) return;
+        if (!$this->module->canPerformNeuralgicActions) {
+            Yii::info('[roxymce] Access violation (soft): Folder remove', 'security');
+            return;
+        }
 
         $folder = realpath($folder);
         $folderProperties = FolderHelper::folderList($folder);
@@ -253,6 +263,7 @@ class ManagementController extends Controller
         }
         try {
             if (rmdir($folder)) {
+                Yii::info('[roxymce] Folder delete', 'userBehaviour');
                 return [
                     'error' => 0,
                     'content' => $parentFolder,
@@ -292,6 +303,7 @@ class ManagementController extends Controller
             $model = new UploadForm();
             $model->file = UploadedFile::getInstances($model, 'file');
             if ($model->upload($folder)) {
+                Yii::info('[roxymce] File upload', 'userBehaviour');
                 return [
                     'error' => 0,
                 ];
@@ -319,7 +331,10 @@ class ManagementController extends Controller
      */
     public function actionFileRename($folder = '', $file, $name)
     {
-        if (!$this->module->canPerformNeuralgicActions) return;
+        if (!$this->module->canPerformNeuralgicActions) {
+            Yii::info('[roxymce] Access violation (soft): File rename', 'security');
+            return;
+        }
 
         if ($folder == '') {
             return [
@@ -331,6 +346,7 @@ class ManagementController extends Controller
         $oldFile = $folder . DIRECTORY_SEPARATOR . $file;
         $newFile = $folder . DIRECTORY_SEPARATOR . $name;
         if (is_file($oldFile) && rename($oldFile, $newFile)) {
+            Yii::info('[roxymce] File rename', 'userBehaviour');
             return [
                 'error' => 0,
                 'data' => [
@@ -351,7 +367,10 @@ class ManagementController extends Controller
 
     public function actionFileRemove($folder = '', $file)
     {
-        if (!$this->module->canPerformNeuralgicActions) return;
+        if (!$this->module->canPerformNeuralgicActions) {
+            Yii::info('[roxymce] Access violation (soft): File remove', 'security');
+            return;
+        }
 
         if ($folder == '') {
             return [
@@ -362,6 +381,7 @@ class ManagementController extends Controller
         $folder = realpath($folder);
         $filePath = $folder . DIRECTORY_SEPARATOR . $file;
         if (is_file($filePath) && unlink($filePath)) {
+            Yii::info('[roxymce] File remove', 'userBehaviour');
             return [
                 'error' => 0,
             ];
